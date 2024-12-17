@@ -50,7 +50,7 @@ class Auth extends Controller {
                 if ($userRole == 'admin') {
                     redirect('home');
                 } else if ($userRole == 'patient' && $firstTimeUser == null) {
-                    redirect('client/newClient');
+                    redirect('/client/newUserCredentials');
                 } else if ($userRole == 'patient' && $firstTimeUser != null) {
                     redirect('client/appointment');
                 }

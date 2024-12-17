@@ -1,0 +1,48 @@
+project/
+├── app/
+│   ├── controllers/
+│   │   ├── AuthController.php
+│   │   ├── ProductController.php
+│   │   ├── TransactionController.php
+│   │   ├── AnalyticsController.php
+│   │   ├── POSController.php
+│   │   ├── ExportController.php
+│   │   └── RegistrationController.php
+│   ├── models/
+│   │   ├── UserModel.php
+│   │   ├── ProductModel.php
+│   │   ├── TransactionModel.php
+│   │   ├── AnalyticsModel.php
+│   │   └── ExportModel.php
+│   │   └── RegistrationModel.php
+│   └── views/
+│       ├── auth/
+│       │   ├── login.php
+│       ├── dashboard/
+│       │   └── home_dashboard.php
+│       ├── products/
+│       │   ├── add_product.php
+│       │   ├── update_product.php
+│       │   ├── delete_product.php
+│       │   └── product_list.php
+│       ├── analytics/
+│       │   ├── monthly_sales.php
+│       │   ├── product_performance.php
+│       │   └── inventory_levels.php
+│       ├── transactions/
+│       │   ├── transaction_list.php
+│       │   └── transaction_detail.php
+│       ├── pos/
+│       │   ├── pos_dashboard.php
+│       │   ├── void_item.php
+│       │   ├── view_last_transaction.php
+│       │   └── export_report.php
+│       └── registration/
+│           ├── register_manager.php
+│           └── register_salesperson.php
+│
+└── public/  # static assets like CSS, JS, images
+
+
+USE-CASE
+https://lucid.app/lucidchart/a3fb2c8b-c196-4563-96a4-82f5a5b6640d/edit?viewport_loc=310%2C494%2C3328%2C1626%2C.Q4MUjXso07N&invitationId=inv_d602b1bb-3714-461a-bc43-392981a43393

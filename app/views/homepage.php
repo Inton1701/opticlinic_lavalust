@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Optical Clinic Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    <?php include APP_DIR . 'views/templates/header.php'; ?>
+
+    <!-- <?php include APP_DIR . 'views/templates/header.php'; ?> -->
     <style>
         body {
-            background: url('<?=base_url();?>public/assets/background1.jpg') center center/cover no-repeat;
+            background: url('<?= base_url(); ?>public/assets/background1.jpg') center center/cover no-repeat;
             height: 100vh;
             margin: 0;
             font-family: 'Nunito', sans-serif;
@@ -73,6 +72,7 @@
                 opacity: 0;
                 transform: translateY(-20px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -171,6 +171,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0);
@@ -204,30 +205,34 @@
             <h1>Optical Clinic Admin Dashboard</h1>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card shadow-custom mb-4">
-                    <div class="card-body text-center dash-counts" >
-                        <i class="bi bi-calendar-event card-icon text-primary mb-3"></i>
-                        <h5 class="card-title">Appointments</h5>
-                        <p class="fs-4 mb-1">0</p>
-                        <small class="card-subtitle">Scheduled this week</small>
+        <?php if (!empty($dashboardData) && isset($dashboardData['appointments'])): ?>
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card shadow-custom mb-4 dash-counts">
+                        <div class="card-body text-center">
+                            <i class="bi bi-calendar-event card-icon text-primary mb-3"></i>
+                            <h5 class="card-title">Appointments</h5>
+                            <p class="fs-4 mb-1">
+                                <?= htmlspecialchars($dashboardData['appointments']['total_appointments']['total_appointments'] ?? 0); ?>
+                            </p>
+                            <small class="card-subtitle">Scheduled this week</small>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="card shadow-custom mb-4 dash-counts">
-                    <div class="card-body text-center">
-                        <i class="bi bi-file-earmark-text card-icon text-success mb-3"></i>
-                        <h5 class="card-title">Prescriptions</h5>
-                        <p class="fs-4 mb-1">0</p>
-                        <small class="card-subtitle">Issued this month</small>
+                <div class="col-md-3">
+                    <div class="card shadow-custom mb-4 dash-counts">
+                        <div class="card-body text-center">
+                            <i class="bi bi-file-earmark-text card-icon text-success mb-3"></i>
+                            <h5 class="card-title">Prescriptions</h5>
+                            <p class="fs-4 mb-1">
+                                <?= htmlspecialchars($dashboardData['prescriptions']['total_prescriptions']['total_prescriptions'] ?? 0); ?>
+                            </p>
+                            <small class="card-subtitle">Issued this month</small>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-3">
+                <div class="col-md-3">
                 <div class="card shadow-custom mb-4 ">
                     <div class="card-body text-center">
                         <i class="bi bi-eyeglasses card-icon text-warning mb-3"></i>
@@ -238,17 +243,24 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card shadow-custom mb-4 dash-counts">
-                    <div class="card-body text-center">
-                        <i class="bi bi-people card-icon text-danger mb-3"></i>
-                        <h5 class="card-title">Active Patients</h5>
-                        <p class="fs-4 mb-1">0</p>
-                        <small class="card-subtitle">Registered in the system</small>
+                <div class="col-md-3">
+                    <div class="card shadow-custom mb-4 dash-counts">
+                        <div class="card-body text-center">
+                            <i class="bi bi-people card-icon text-danger mb-3"></i>
+                            <h5 class="card-title">Active Patients</h5>
+                            <p class="fs-4 mb-1">
+                                <?= htmlspecialchars($dashboardData['users']['total_users']['total_users'] ?? 0); ?>
+                            </p>
+                            <small class="card-subtitle">Registered in the system</small>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="alert alert-danger">
+                Unable to fetch dashboard data.
+            </div>
+        <?php endif; ?>
 
         <div class="row mt-4">
             <div class="col-md-6">
@@ -286,22 +298,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                    <?php if (!empty($appointments)): ?>
-                        <?php foreach ($appointments as $appointment): ?>
-                            <tr>
-                                <td><?= "{$appointment['first_name']} {$appointment['last_name']} "; ?></td>
-       
-                                <td><?= "{$appointment['date']}  {$appointment['time']}" ?></td>
-              
-                                <td><?= $appointment['status']; ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="7" class="text-center">No appointments found</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
+                                <?php if (!empty($appointments)): ?>
+                                    <?php foreach ($appointments as $appointment): ?>
+                                        <tr>
+                                            <td><?= "{$appointment['first_name']} {$appointment['last_name']} "; ?></td>
+
+                                            <td><?= "{$appointment['date']}  {$appointment['time']}" ?></td>
+
+                                            <td><?= $appointment['status']; ?></td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <tr>
+                                        <td colspan="7" class="text-center">No appointments found</td>
+                                    </tr>
+                                <?php endif; ?>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -309,37 +321,14 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <?php include APP_DIR . 'views/templates/footer.php'; ?>
-    <script>
-        function loadDashboard() {
-    $.ajax({
-        url: '<?= site_url('home/fetch_dashboard_data') ?>',
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            if (response.success) {
-                const data = response.data;
 
-                // Dynamically update counts using response data
-                $('.dash-counts:contains("Appointments") p').text(data.appointments.total_appointments.total_appointments || 0);
-                $('.dash-counts:contains("Active Patients") p').text(data.users.total_users.total_users || 0);
-                $('.dash-counts:contains("Prescriptions") p').text(data.prescriptions.total_prescriptions.total_prescriptions || 0);
-            }
-        },
-        error: function (xhr, status, error) {
-            console.error('AJAX Error:', error);
-            console.error('Status:', status);
-            console.error('Response:', xhr.responseText);
-            Swal.fire('Error', 'An error occurred while fetching dashboard data', 'error');
-        },
-    });
-}
-$(document).ready(function () {
-    loadDashboard();
-});
 
-    </script>
+
+
+<script>
+
+</script>
+
 </body>
 
 </html>

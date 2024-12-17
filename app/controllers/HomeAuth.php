@@ -21,32 +21,50 @@ class HomeAuth extends Controller {
 
     //=== HOMEPAGE ===//
     public function index() {
+        $data = [];
         $appointments = $this->AppointmentModel->get_users();
+        $data = $this->HomeModel->get_home_data();
         $this->call->view('homepage',[
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'dashboardData' => $data
+
         ]);
-    }
-    public function fetch_dashboard_data() {
-        header('Content-Type: application/json');
     
-        try {
-            // Fetch raw data from the model
-            $data = $this->HomeModel->get_home_data();
- 
-            echo json_encode([
-                'success' => true,
-                'data' => $data,
-            ]);
-        } catch (Exception $e) {
-      
-            echo json_encode([
-                'success' => false,
-                'message' => $e->getMessage(),
-            ]);
-        }
-    
-        
     }
+    // public function fetch_dashboard_data() {
+    //     // Define API request for identifying API-specific logic in the controller
+    //     define('API_REQUEST', true);
+    
+    //     // Set content type to JSON for the response
+    //     header('Content-Type: application/json');
+    
+    //     try {
+    //         // Fetch raw data from the model
+    //         $data = $this->HomeModel->get_home_data();
+    
+    //         // Check if data is returned and properly structured
+    //         if (empty($data)) {
+    //             throw new Exception("No data available to fetch.");
+    //         }
+    
+    //         // Respond with success
+    //         echo json_encode([
+    //             'success' => true,
+    //             'data' => $data,
+    //         ]);
+    //     } catch (Exception $e) {
+    //         // Respond with an error message in case of failure
+    //         http_response_code(500); // Internal Server Error
+    //         echo json_encode([
+    //             'success' => false,
+    //             'message' => $e->getMessage(),
+    //         ]);
+    //     } finally {
+    //         // Ensure no further content is rendered
+    //         exit;
+    //     }
+    // }
+    
     
 }
 ?>

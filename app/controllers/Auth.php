@@ -24,20 +24,14 @@ class Auth extends Controller {
         if ($this->form_validation->submitted()) {
             $email = $this->io->post('email');
             $password = $this->io->post('password');
-            
-            // Attempt to log in the user
             $data = $this->lauth->login($email, $password);
             
-            // Check if login failed
             if (empty($data)) {
                 $this->session->set_flashdata('alert', 'error');
                 $this->session->set_flashdata('message', 'These credentials do not match our records.');
                 $this->call->view('auth/login');
             } else {
-                // Fetch user data after successful login
                 $getSessionInfo = $this->authM->getUser($data);
-
-                // Prepare session data
                 $newdata = array(
                     'id'         => $getSessionInfo['id'] ?? '',
                     'username'   => $getSessionInfo['username'] ?? '',
@@ -47,30 +41,21 @@ class Auth extends Controller {
                     'logged_in'  => TRUE
                 );
 
-                // Set session data
                 $this->session->set_userdata($newdata);
-                
-                // Flash success message
                 $this->session->set_flashdata('alert', 'success');
                 $this->session->set_flashdata('message', 'Login successful. Welcome back!');
-                
-                // Set user as logged in
                 $this->lauth->set_logged_in($data);
-                
-                // Check the user role and redirect accordingly
                 $userRole = $this->session->userdata('role');
                 $firstTimeUser = $this->session->userdata('first_name');
-                
                 if ($userRole == 'admin') {
                     redirect('home');
                 } else if ($userRole == 'patient' && $firstTimeUser == null) {
-                    redirect('client/newClient');
+                    redirect('/client/newUserCredentials');
                 } else if ($userRole == 'patient' && $firstTimeUser != null) {
                     redirect('client/appointment');
                 }
             }
         } else {
-            // If form was not submitted, show login view
             $this->call->view('auth/login');
         }
     }

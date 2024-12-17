@@ -7,6 +7,13 @@ class Client extends Controller {
     {
         parent::__construct();
         $this->call->model('client_model', 'client');
+        $userRole = $this->session->userdata('role');
+        if (!$this->lauth->is_logged_in()) {
+            redirect('auth/login');
+        }
+        if ($userRole != 'patient') {
+            redirect('auth/login');
+        }
     }
 
     function appointment(){

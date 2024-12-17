@@ -5,13 +5,17 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 class AuthM extends Model {
 
+    function getUser($id) {
+        return $this->db->table('users')->where('id', $id)->get();
+    }
+
     public function get_user_by_email($email) {
         $sql = "SELECT * FROM users WHERE email = ?";
         return $this->db->query($sql, [$email])->row();
     }
 
     public function create_user($data) {
-        $sql = "INSERT INTO users (username, email, password, email_token, created_at) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (username, email, first_name, last_name, password, email_token, created_at) VALUES (?, ?, ?, ?, ?)";
         return $this->db->query($sql, [
             $data['username'],
             $data['email'],

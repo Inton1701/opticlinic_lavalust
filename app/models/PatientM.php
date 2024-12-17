@@ -11,23 +11,24 @@ class PatientM extends Model {
 
     public function get_patient()
     {
-        return $this->db->table('patients')->get_all();
+        return $this->db->table('users')->where('role', 'patient')->get_all();
     }
 
     public function get_patient_by_id($id) {
-        return $this->db->table('patients')->where('id', $id)->get();
+        return $this->db->table('users')->where('id', $id)->get();
     }
 
     public function create_patient($data) {
-        return $this->db->table('patients')->insert($data);
+        return $this->db->table('users')->insert($data);
     }
 
     public function update_patient($id, $data) {
-        return $this->db->table('patients')->where('id', $id)->update($data);
+        return $this->db->table('users')->where('id', $id)->update($data);
     }
 
     public function delete_patient($id) {
-        return $this->db->table('patients')->where('id', $id)->delete();
+        return $this->db->table('users')->where('id', $id)->delete();
     }
+
 }
 ?>

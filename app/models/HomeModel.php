@@ -59,5 +59,28 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
             ');
             return $query->getResult();
         }
+
+    public function get_home_data()
+    {
+        return [
+            'appointments' => [
+                'total_appointments' => $this->db->table('appointments')
+                ->select_count('id', 'total_appointments')
+                ->get(),
+            ],
+
+            'users' => [
+                'total_users' => $this->db->table('users')
+                    ->select_count('id', 'total_users')
+                    ->get(),
+            ],
+
+            'prescriptions' => [
+                'total_prescriptions' => $this->db->table('prescriptions')
+                ->select_count('id', 'total_prescriptions')
+                ->get(),
+            ],
+        ];
+    }
     
     }

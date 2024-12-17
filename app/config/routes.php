@@ -57,6 +57,7 @@ $router->get('/optical-clinic/logout', 'HomeController::logout');
 
 //==== HOME ====//
 $router->get('/home', 'HomeAuth::index');
+$router->get('/home/fetch_dashboard_data', 'HomeAuth::fetch_dashboard_data');
 
 //==== HOMEPAGE ====//
 $router->get('/optical-clinic', 'HomeController::index');
@@ -71,13 +72,14 @@ $router->get('/optical-clinic/appointments/edit/{id}', 'AppointmentController::e
 $router->post('/optical-clinic/appointments/update', 'AppointmentController::update_appointment');
 $router->get('/optical-clinic/appointments/delete/{id}', 'AppointmentController::delete_appointment');
 $router->post('/optical-clinic/appointments/delete', 'AppointmentController::delete_appointment');
-
+$router->get('/optical-clinic/appointments/search_user/{id}', 'AppointmentController::search_user');
+$router->post('/optical-clinic/appointments/add', 'AppointmentController::add_appointment');
 //=== PRESCRIPTIONS ===//
 $router->get('/optical-clinic/prescriptions', 'PrescriptionController::prescriptions');
 $router->post('/optical-clinic/prescriptions/create', 'PrescriptionController::create_prescription');
 $router->get('/optical-clinic/prescriptions/create', 'PrescriptionController::create_form');
 $router->get('/optical-clinic/prescriptions/edit/{id}', 'PrescriptionController::edit_prescription');
-$router->post('/optical-clinic/prescriptions/update/{id}', 'PrescriptionController::update_prescription');
+$router->post('/optical-clinic/prescriptions/update', 'PrescriptionController::update_prescription');
 $router->get('/optical-clinic/prescriptions/delete/{id}', 'PrescriptionController::delete_prescription');
 
 //=== PATIENT ===//
@@ -87,3 +89,8 @@ $router->get('/optical-clinic/patient/edit/{id}', 'PatientC::edit_patient');
 $router->post('/optical-clinic/patient/update', 'PatientC::update_patient');
 $router->get('/optical-clinic/patient/delete/{id}', 'patientC::delete_patient');
 $router->post('/optical-clinic/patient/delete', 'PatientC::delete_patient');
+
+
+//==CLIENT==//
+$router->get('/client/appointment', 'Client::appointment');
+$router->get('/client/newClient', 'Client::displayNewClientForm');

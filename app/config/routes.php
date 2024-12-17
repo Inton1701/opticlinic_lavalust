@@ -89,3 +89,8 @@ $router->get('/optical-clinic/patient/edit/{id}', 'PatientC::edit_patient');
 $router->post('/optical-clinic/patient/update', 'PatientC::update_patient');
 $router->get('/optical-clinic/patient/delete/{id}', 'patientC::delete_patient');
 $router->post('/optical-clinic/patient/delete', 'PatientC::delete_patient');
+
+
+//==CLIENT==//
+$router->get('/client/appointment', 'Client::appointment');
+$router->get('/client/newClient', 'Client::displayNewClientForm');

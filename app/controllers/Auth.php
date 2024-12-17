@@ -21,21 +21,61 @@ class Auth extends Controller {
     //=== LOGIN ===///
     public function verify()
     {
-        if($this->form_validation->submitted()) {
+        if ($this->form_validation->submitted()) {
             $email = $this->io->post('email');
-			$password = $this->io->post('password');
+            $password = $this->io->post('password');
+            
+            // Attempt to log in the user
             $data = $this->lauth->login($email, $password);
-            if(empty($data)) {
-				$this->session->set_flashdata(['is_invalid' => 'is-invalid']);
-                $this->session->set_flashdata(['err_message' => 'These credentials do not match our records.']);
-			} else {
-				$this->lauth->set_logged_in($data);
-			}
-            redirect('home');
+            
+            // Check if login failed
+            if (empty($data)) {
+                $this->session->set_flashdata('alert', 'error');
+                $this->session->set_flashdata('message', 'These credentials do not match our records.');
+                $this->call->view('auth/login');
+            } else {
+                // Fetch user data after successful login
+                $getSessionInfo = $this->authM->getUser($data);
+
+                // Prepare session data
+                $newdata = array(
+                    'id'         => $getSessionInfo['id'] ?? '',
+                    'username'   => $getSessionInfo['username'] ?? '',
+                    'email'      => $getSessionInfo['email'] ?? '',
+                    'role'       => $getSessionInfo['role'] ?? '',
+                    'first_name' => $getSessionInfo['first_name'] ?? '',
+                    'logged_in'  => TRUE
+                );
+
+                // Set session data
+                $this->session->set_userdata($newdata);
+                
+                // Flash success message
+                $this->session->set_flashdata('alert', 'success');
+                $this->session->set_flashdata('message', 'Login successful. Welcome back!');
+                
+                // Set user as logged in
+                $this->lauth->set_logged_in($data);
+                
+                // Check the user role and redirect accordingly
+                $userRole = $this->session->userdata('role');
+                $firstTimeUser = $this->session->userdata('first_name');
+                
+                if ($userRole == 'admin') {
+                    redirect('home');
+                } else if ($userRole == 'patient' && $firstTimeUser == null) {
+                    redirect('client/newClient');
+                } else if ($userRole == 'patient' && $firstTimeUser != null) {
+                    redirect('client/appointment');
+                }
+            }
         } else {
+            // If form was not submitted, show login view
             $this->call->view('auth/login');
         }
     }
+
+
     //=== REGISTER ===//
      public function register()
     {
@@ -64,12 +104,12 @@ class Auth extends Controller {
                     ->required()
                     ->is_unique('users', 'email', $email, 'Email was already taken.')
                     ->valid_email('Please provide a valid email.');
-
             if ($this->form_validation->run()) {
                 if ($this->lauth->register($username, $email, $password, $email_token)) {
                     $data = $this->lauth->login($email, $password);
                     $this->lauth->set_logged_in($data);
-                    redirect('home');
+                    set_flash_alert('success', 'You are registered. Please log in.');
+                    redirect('auth/login');
                 } else {
                     set_flash_alert('danger', config_item('SQLError'));
                     redirect('auth/register');

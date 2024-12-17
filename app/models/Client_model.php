@@ -8,9 +8,21 @@ class Client_model extends Model {
         parent::__construct();
     }
 
-    function getUser($id) {
-        return $this->db->table('users')->where('id', $id)->get();
+   function updatePersonalData($id, $fName, $lName, $dob, $gender, $contactNum, $address) {
+        $sql = "
+            UPDATE users 
+            SET 
+                first_name = ?, 
+                last_name = ?, 
+                dob = ?, 
+                gender = ?, 
+                contact_number = ?, 
+                address = ? 
+            WHERE id = ?
+        ";
+        return $this->db->raw($sql, [$fName, $lName, $dob, $gender, $contactNum, $address, $id]);
     }
+
 
 }
 ?>

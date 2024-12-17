@@ -16,5 +16,16 @@ class Client extends Controller {
         $this->call->view('client/newClient');
     }
 
+    function updatePersonalData(){
+        $id = $this->session->userdata('id');
+        $fName = $this->io->post('fName');
+        $lName = $this->io->post('lName');
+        $dob = $this->io->post('dob');
+        $gender = $this->io->post('gender');
+        $contactNum = $this->io->post('number');
+        $address = $this->io->post('address');
+        $this->updatePersonalData($id, $fName, $lName, $dob, $gender, $contactNum, $address);
+    }
+
 }
 ?>

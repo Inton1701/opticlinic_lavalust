@@ -79,14 +79,14 @@
 </head>
 
 <body>
-  <form>
+  <form action="/client/update-credential" method="POST">
     <h1>Please fill in the additional information before proceeding.</h1>
     <input type="hidden" name="id" value="<?php  ?>">
-    <label for="firstname">First Name:</label>
-    <input type="text" id="firstname" name="firstname" value="" required>
+    <label for="fName">First Name:</label>
+    <input type="text" id="fName" name="fName" value="" required>
 
-    <label for="lastname">Last Name:</label>
-    <input type="text" id="lastname" name="lastname" value="" required>
+    <label for="lName">Last Name:</label>
+    <input type="text" id="lName" name="lName" value="" required>
 
     <label for="dob">Date of Birth:</label>
     <input type="date" id="dob" name="dob" value="" required>
@@ -98,13 +98,13 @@
       <option value="other">Other</option>
     </select>
 
-    <label for="contact">Contact Number:</label>
-    <input type="tel" id="contact" name="contact" value="" required>
+    <label for="number">Contact Number:</label>
+    <input type="tel" id="number" name="number" value="" required>
 
     <label for="address">Address:</label>
     <textarea id="address" name="address" rows="3" required></textarea>
 
-    <button type="submit">Register</button>
+    <button type="submit">Update Credentials</button>
   </form>
 </body>
 

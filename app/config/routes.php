@@ -92,3 +92,4 @@ $router->post('/optical-clinic/patient/delete', 'PatientC::delete_patient');
 //==CLIENT==//
 $router->get('/client/appointment', 'Client::appointment');
 $router->get('/client/newClient', 'Client::displayNewClientForm');
+$router->post('/client/update-credential', 'Client::updatePersonalData');

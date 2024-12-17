@@ -27,7 +27,7 @@ class PatientC extends Controller
         $email = $this->io->post('email');
         $address = $this->io->post('address');
 
-        $user_id = $_SESSION['user_id'];
+
 
         $patient_data = [
         'first_name' => $first_name,    

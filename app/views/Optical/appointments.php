@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Appointments</title>
-    <link href="<?= base_url(); ?>public/css/main.css" rel="stylesheet">
-    <link href="<?= base_url(); ?>public/css/style.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <?php include APP_DIR . 'views/templates/header.php'; ?>
     <style>
         body {
             background: url('<?= base_url(); ?>public/assets/background1.jpg') center center/cover no-repeat;
@@ -26,6 +27,7 @@
             border-radius: 8px;
             transition: background-color 0.3s, transform 0.3s;
         }
+
         .back-button:hover {
             background-color: #0056b3;
             transform: scale(1.05);
@@ -37,7 +39,8 @@
             border-radius: 10px;
         }
 
-        h2, h3 {
+        h2,
+        h3 {
             color: #fff;
             font-size: 28px;
         }
@@ -46,7 +49,9 @@
             color: #fff;
         }
 
-        .btn-primary, .btn-warning, .btn-danger {
+        .btn-primary,
+        .btn-warning,
+        .btn-danger {
             padding: 10px 15px;
             border-radius: 8px;
             font-size: 16px;
@@ -88,7 +93,8 @@
             border-collapse: collapse;
         }
 
-        .table th, .table td {
+        .table th,
+        .table td {
             padding: 12px;
             text-align: left;
             border: 1px solid #fff;
@@ -159,9 +165,10 @@
         .modal-backdrop {
             backdrop-filter: blur(5px);
         }
-
     </style>
+
 </head>
+
 <body>
     <div class="container">
         <button class="back-button" onclick="window.location.href='<?= site_url('home'); ?>'">
@@ -174,9 +181,12 @@
             </div>
         <?php endif; ?>
 
-        <div class="mb-4">
-            <h3>Appointment</h3>
-        </div>
+        <div class="mb-4 d-flex justify-content-between">
+    <h3>Appointments</h3>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+        Add User
+    </button>
+</div>
 
         <div class="table-responsive">
             <table class="table">
@@ -203,9 +213,9 @@
                                     <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#editAppointmentModal" data-id="<?= $appointment['id']; ?>" data-date="<?= $appointment['date']; ?>" data-time="<?= $appointment['time']; ?>" data-description="<?= $appointment['description']; ?>" data-status="<?= $appointment['status']; ?>">
                                         Edit
                                     </button> |
-                                    <form action="<?= site_url('optical-clinic/appointments/delete'); ?>" method="post" style="display:inline;">
+                                    <form action="<?= site_url('optical-clinic/appointments/delete'); ?>" method="post" style="display:inline;" class="delete-form">
                                         <input type="hidden" name="id" value="<?= $appointment['id']; ?>">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger delete-button">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -256,9 +266,46 @@
                 </div>
             </div>
         </div>
+
+        <!-- Add User Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="<?= site_url('optical-clinic/appointments/create'); ?>" method="POST">
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Name</label>
+                                <input type="text" name="name" id="userName" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">Email</label>
+                                <input type="email" name="email" id="userEmail" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userRole" class="form-label">Role</label>
+                                <select name="role" id="userRole" class="form-control" required>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Staff">Staff</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userPassword" class="form-label">Password</label>
+                                <input type="password" name="password" id="userPassword" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add User</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <?php include APP_DIR . 'views/templates/footer.php'; ?>
     <script>
         const editButtons = document.querySelectorAll('button[data-bs-toggle="modal"]');
         editButtons.forEach(button => {
@@ -268,7 +315,7 @@
                 const time = this.getAttribute('data-time');
                 const description = this.getAttribute('data-description');
                 const status = this.getAttribute('data-status');
-                
+
                 document.getElementById('appointmentId').value = id;
                 document.getElementById('editDate').value = date;
                 document.getElementById('editTime').value = time;
@@ -276,6 +323,32 @@
                 document.getElementById('editStatus').value = status;
             });
         });
+
+
+        const deleteForms = document.querySelectorAll('.delete-form');
+
+        deleteForms.forEach(form => {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the form from submitting immediately
+
+                // Show SweetAlert confirmation dialog
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If confirmed, submit the form
+                        form.submit();
+                    }
+                });
+            });
+        });
     </script>
 </body>
+
 </html>

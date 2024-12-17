@@ -10,9 +10,9 @@ class HomeAuth extends Controller {
         parent::__construct();
         $this->call->model('Lauth', 'lauth');
 
-        if (!$this->lauth->is_logged_in()) {
-            redirect('auth/login');
-        }
+        // if (!$this->lauth->is_logged_in()) {
+        //     redirect('auth/login');
+        // }
     }
 
     //=== HOMEPAGE ===//

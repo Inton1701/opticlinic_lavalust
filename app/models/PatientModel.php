@@ -16,7 +16,7 @@ class PatientModel extends Model
     }
 
     public function get_all_patients() {
-        return $this->db->table('patients')->get()->getResultArray();
+        return $this->db->table('patients')->where('role', 'patient')->get()->getResultArray();
     }
 
     public function add_patient($data) {

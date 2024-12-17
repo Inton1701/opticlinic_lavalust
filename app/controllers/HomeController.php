@@ -5,29 +5,39 @@ defined('PREVENT_DIRECT_ACCESS') OR exit('No direct script access allowed');
 
 class HomeController extends Controller 
 {
+    public function __construct() {
+        parent::__construct();
+        $this->call->model('AppointmentModel');
+    }
+
     //=== HOMEPAGE ===//
     public function index() {
-        $appointments_count = $this->model->getAppointmentsCount();
-        $prescriptions_count = $this->model->getPrescriptionsCount();
-        $frames_count = $this->model->getFramesCount();
-        $patients_count = $this->model->getPatientsCount();
-        $upcoming_appointments = $this->model->getUpcomingAppointments();
-        $recent_prescriptions = $this->model->getRecentPrescriptions();
-        $low_stock_frames = $this->model->getLowStockFrames();
+        // $appointments_count = $this->model->getAppointmentsCount();
+        // $prescriptions_count = $this->model->getPrescriptionsCount();
+        // $frames_count = $this->model->getFramesCount();
+        // $patients_count = $this->model->getPatientsCount();
+        // $upcoming_appointments = $this->model->getUpcomingAppointments();
+        // $recent_prescriptions = $this->model->getRecentPrescriptions();
+        // $low_stock_frames = $this->model->getLowStockFrames();
 
-        // Fetching patient check-ins data
-        $patients = $this->model->getPatientCheckins();
+        // // Fetching patient check-ins data
+        // $patients = $this->model->getPatientCheckins();
 
-        $this->call->view('home', [
-            'appointments_count' => $appointments_count,
-            'prescriptions_count' => $prescriptions_count,
-            'frames_count' => $frames_count,
-            'patients_count' => $patients_count,
-            'upcoming_appointments' => $upcoming_appointments,
-            'recent_prescriptions' => $recent_prescriptions,
-            'low_stock_frames' => $low_stock_frames,
-            'patients' => $patients // Passing the patient data
-        ]);
+        // $this->call->view('home', [
+        //     'appointments_count' => $appointments_count,
+        //     'prescriptions_count' => $prescriptions_count,
+        //     'frames_count' => $frames_count,
+        //     'patients_count' => $patients_count,
+        //     'upcoming_appointments' => $upcoming_appointments,
+        //     'recent_prescriptions' => $recent_prescriptions,
+        //     'low_stock_frames' => $low_stock_frames,
+        //     'patients' => $patients // Passing the patient data
+        // ]);
+
+
+          $this->call->view('home');
+
+   
     }
 
     //=== GET ALL DATA ===//

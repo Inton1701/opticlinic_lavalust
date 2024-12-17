@@ -45,6 +45,31 @@ class AppointmentController extends Controller
         }
     }
 
+    public function add_appointment()
+    {   $user_id = $this->io->post('user_id');
+        $date = $this->io->post('date');
+        $time = $this->io->post('time');
+        $description = $this->io->post('description');
+
+
+        $appointment_data = [
+            'user_id' => $user_id,
+            'date' => $date,
+            'time' => $time,
+            'status'=> 'Confirmed',
+            'description' => $description,
+         
+        ];
+
+        if ($this->AppointmentModel->create_appointment($appointment_data)) {
+            set_flash_alert('success', 'Appointment created successfully');
+            redirect('/optical-clinic/appointments');
+        } else {
+            set_flash_alert('danger', 'Failed to create appointment');
+            redirect('/optical-clinic/appointments');
+        }
+    }
+
     //=== EDIT APPOINTMENT ===//
     public function edit_appointment($id)
     {
@@ -88,6 +113,38 @@ class AppointmentController extends Controller
             redirect('/optical-clinic/appointments');
         }
     }
+    public function search_user($query)
+    {
+        if (empty($query)) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Search query is missing'
+            ]);
+            return;
+        }
+    
+        // Call the model to search users
+        $users = $this->AppointmentModel->search_patient($query);
+    
+        // Ensure the response `data` is always an array
+        if (!empty($users)) {
+            // Check if single user or multiple users and force array format
+            $result = is_array($users) ? $users : [$users];
+    
+            echo json_encode([
+                'status' => 'success',
+                'data' => $result
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'No users found'
+            ]);
+        }
+    }
+    
+    
+    
 }
 
 ?>

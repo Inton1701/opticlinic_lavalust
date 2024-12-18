@@ -11,10 +11,13 @@ class HomeAuth extends Controller {
         $this->call->model('Lauth', 'lauth');
         $this->call->model('AppointmentModel');
         $this->call->model('HomeModel');
-
-        // if (!$this->lauth->is_logged_in()) {
-        //     redirect('auth/login');
-        // }
+        $userRole = $this->session->userdata('role');
+        if (!$this->lauth->is_logged_in()) {
+            redirect('auth/login');
+        }
+        if ($userRole != 'admin') {
+            redirect('auth/login');
+        }
     }
 
 

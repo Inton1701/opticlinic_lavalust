@@ -9,6 +9,13 @@ class AppointmentController extends Controller
     public function __construct() {
         parent::__construct();
         $this->call->model('AppointmentModel');
+         $userRole = $this->session->userdata('role');
+        if (!$this->lauth->is_logged_in()) {
+            redirect('auth/login');
+        }
+        if ($userRole != 'admin') {
+            redirect('auth/login');
+        }
     }
 
     //=== GET APPOINTMENTS ===//

@@ -10,6 +10,7 @@ class Auth extends Controller {
     {
         parent::__construct();
         $this->call->model('AuthM', 'authM');
+        
     }
 
     //=== LOGIN FORM ===//

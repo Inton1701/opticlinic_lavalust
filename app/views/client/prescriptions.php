@@ -172,7 +172,7 @@
         <th>Medication</th>
         <th>Dosage</th>
         <th>Duration</th>
-        <th>Renewal Date</th>
+        <th>Checkup Date</th>
         <th>Created At</th>
       </tr>
     </thead>
@@ -182,7 +182,7 @@
         <td><?= htmlspecialchars($p['medication']) ?></td>
         <td><?= htmlspecialchars($p['dosage']) ?></td>
         <td><?= htmlspecialchars($p['duration']) ?></td>
-        <td><?= htmlspecialchars($p['renewal_date']) ?></td>
+        <td><?= htmlspecialchars($p['checkup_date']) ?></td>
         <td><?= htmlspecialchars($p['created_at']) ?></td>
       </tr>
       <?php endforeach; ?>

@@ -37,10 +37,10 @@ class AppointmentController extends Controller
         ];
 
         if ($this->AppointmentModel->create_appointment($appointment_data)) {
-            set_flash_alert('success', 'Appointment created successfully');
+            // set_flash_alert('success', 'Appointment created successfully');
             redirect('/optical-clinic/appointments');
         } else {
-            set_flash_alert('danger', 'Failed to create appointment');
+            // set_flash_alert('danger', 'Failed to create appointment');
             redirect('/optical-clinic/appointments');
         }
     }
@@ -62,10 +62,10 @@ class AppointmentController extends Controller
         ];
 
         if ($this->AppointmentModel->create_appointment($appointment_data)) {
-            set_flash_alert('success', 'Appointment created successfully');
+            // set_flash_alert('success', 'Appointment created successfully');
             redirect('/optical-clinic/appointments');
         } else {
-            set_flash_alert('danger', 'Failed to create appointment');
+            // set_flash_alert('danger', 'Failed to create appointment');
             redirect('/optical-clinic/appointments');
         }
     }
@@ -75,7 +75,7 @@ class AppointmentController extends Controller
     {
         $appointment = $this->AppointmentModel->get_appointment($id);
         if (!$appointment) {
-            set_flash_alert('danger', 'Appointment not found');
+            // set_flash_alert('danger', 'Appointment not found');
             redirect('/optical-clinic/appointments');
         }
         $this->call->view('Optical/edit_appointment', ['appointment' => $appointment]);
@@ -93,10 +93,10 @@ class AppointmentController extends Controller
         ];
 
         if ($this->AppointmentModel->update_appointment($id, $data)) {
-            set_flash_alert('success', 'Appointment updated successfully');
+            // set_flash_alert('success', 'Appointment updated successfully');
             redirect('/optical-clinic/appointments');
         } else {
-            set_flash_alert('danger', 'Failed to update appointment');
+            // set_flash_alert('danger', 'Failed to update appointment');
             redirect('/optical-clinic/appointments');
         }
     }
@@ -106,10 +106,10 @@ class AppointmentController extends Controller
     {   
         $id = $this->io->post('id'); // Ensure you get the ID from the POST data
         if ($this->AppointmentModel->delete_appointment($id)) {
-            set_flash_alert('success', 'Appointment deleted successfully');
+            // set_flash_alert('success', 'Appointment deleted successfully');
             redirect('/optical-clinic/appointments');
         } else {
-            set_flash_alert('danger', 'Failed to delete appointment');
+            // set_flash_alert('danger', 'Failed to delete appointment');
             redirect('/optical-clinic/appointments');
         }
     }

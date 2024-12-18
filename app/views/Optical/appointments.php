@@ -344,6 +344,7 @@
     </div>
 
     <?php include APP_DIR . 'views/templates/footer.php'; ?>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
         const editButtons = document.querySelectorAll('button[data-bs-toggle="modal"]');
         editButtons.forEach(button => {
@@ -400,10 +401,6 @@
                     "orderable": false // Disable sorting for actions column
                 }]
             });
-
-
-
-
             const $searchInput = $('#searchUser');
             const $searchResults = $('#searchResults');
             const $selectedUserId = $('#selectedUserId');
@@ -448,10 +445,15 @@
                                 $searchResults.html(`<div class="list-group-item text-danger">No users found</div>`).show();
                             }
                         },
-                        error: function() {
-                            console.error('Error fetching search results.');
-                            $searchResults.html(`<div class="list-group-item text-danger">Error fetching data</div>`).show();
-                        }
+                        error: function(jqXHR, textStatus, errorThrown) {
+    console.error('Error fetching search results.');
+    console.error('Status:', textStatus);
+    console.error('Error Thrown:', errorThrown);
+    console.error('Response:', jqXHR.responseText); // Logs the server response
+
+    $searchResults.html(`<div class="list-group-item text-danger">Error fetching data</div>`).show();
+}
+
                     });
                 } else {
                     $searchResults.hide(); // Hide results if query is empty
